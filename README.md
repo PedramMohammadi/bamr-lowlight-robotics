@@ -178,7 +178,4 @@ bamr-lowlight-robotics/
 │  │  └─ mid_loftr_before_after.csv
 │  ├─ figs/
 │  │  ├─ EnhancedSamples.png
-└─ docs/
-   ├─ datasets.md                     # links & expected folder layout for raw data
-   └─ design_notes.md                 # brief design choices and limitations
 ```
