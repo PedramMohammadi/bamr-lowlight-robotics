@@ -1,0 +1,19 @@
+# ExDark YOLO dataset — ORIGINAL (un‑enhanced) splits
+path: ""
+train: /content/drive/MyDrive/bamr_project/data/prepared/exdark/images/train
+val:   /content/drive/MyDrive/bamr_project/data/prepared/exdark/images/val
+test:  /content/drive/MyDrive/bamr_project/data/prepared/exdark/images/test
+nc: 12
+names:
+  - Bicycle
+  - Boat
+  - Bottle
+  - Bus
+  - Car
+  - Cat
+  - Chair
+  - Cup
+  - Dog
+  - Motorbike
+  - People
+  - Table

@@ -1,0 +1,57 @@
+# BAMR Stage‑B (task‑aware tuning)
+# Alternates detector batches (ExDark) with MID pairs; includes LoFTR & repeat‑consistency (RC).
+
+project_root: /content/drive/MyDrive/bamr_project
+
+# ---------- Inputs ----------
+stageA_ckpt: ${project_root}/checkpoints/bamr_stageA/bamr_stageA_best.pt
+
+detection:
+  yolo_model: yolov8n.pt
+  data_yaml: ${project_root}/configs/exdark_yolo.yaml   # original ExDark train/val/test
+  imgsz: 640
+  # I run detector forward to extract features/priors
+  freeze_detector: true
+
+mid:
+  img_root: ${project_root}/data/prepared/mid_mini/images
+  raw_root: ${project_root}/data/raw/mid/mini
+  pairs_k: 3      # frames per pair (first/middle/last)
+  max_side: 1280  # resize longest side to control memory
+  loftr_weights: "outdoor"
+
+# ---------- Schedule ----------
+train:
+  max_steps: 7500
+  batch_size: 4
+  num_workers: 2
+  # Alternate 1 detection batch, then 1 MID batch
+  det_every: 1
+  mid_every: 1
+  amp: true
+  device: cuda
+
+# ---------- Loss (task‑aware) ----------
+loss:
+  prior_w: 0.20      # aligns enhancer with detector feature priors
+  rc_w:    0.05      # repeat‑consistency regularizer
+  loftr_w: 0.75      # matching confidence term dominates the signal
+  # Optional edge preservation during Stage‑B (helps retain structure)
+  edge_w_extra: 0.05
+
+  # Contrastive / margin‑like hyper‑param:
+  gamma: 0.20
+
+# ---------- Optim ----------
+optim:
+  optimizer: adamw
+  lr: 1.0e-4
+  betas: [0.9, 0.999]
+  weight_decay: 0.0
+
+# ---------- Output ----------
+out_ckpt: ${project_root}/checkpoints/bamr_stageB/bamr_taskaware.pt
+log_dir:  ${project_root}/reports/bamr_stageB
+print_every: 50
+save_every: 1000
+seed: 1337

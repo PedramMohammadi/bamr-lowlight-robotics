@@ -1,0 +1,67 @@
+# BAMR Stage‑A (paired pretraining) — PSNR/SSIM‑oriented
+
+project_root: /content/drive/MyDrive/bamr_project
+
+# ---------- I/O ----------
+lists:
+  # Paired TSVs created in your Step 3
+  train:
+    - ${project_root}/data/lists/lol_blur_train.tsv
+    - ${project_root}/data/lists/lolv2_train.tsv
+  val:
+    - ${project_root}/data/lists/lol_blur_val.tsv
+    - ${project_root}/data/lists/lolv2_val.tsv
+ckpt_dir: ${project_root}/checkpoints/bamr_stageA
+log_dir:  ${project_root}/reports/bamr_stageA
+
+# ---------- Model ----------
+model:
+  arch: TinyBAMR
+  base_channels: 32   # encoder widths: 32/64/128/256 (kept lightweight for T4/L4)
+  # internals (kept here for visibility; fixed in code):
+  use_depthwise: true
+  use_freq_attention: true
+  lrf_dilations: [1, 2, 4]
+
+# ---------- Data ----------
+data:
+  patch_size: 256
+  random_crop: true
+  random_hflip: true
+  random_vflip: false
+  color_jitter: false
+  # Normalize handled inside the model input scaling [0,1].
+
+# ---------- Optim ----------
+optim:
+  optimizer: adamw
+  lr: 2.0e-4
+  betas: [0.9, 0.999]
+  weight_decay: 0.0
+  # step schedule implemented in trainer (poly/cos optional)
+  max_steps: 15000
+  batch_size: 8
+  num_workers: 2
+  amp: true        # autocast mixed precision on GPU
+
+# ---------- Loss (Stage‑A) ----------
+loss:
+  l1_w: 1.0                 # primary fidelity
+  edge_w: 0.10              # TV/Sobel to preserve structure
+  perc_w: 0.05              # VGG perceptual; small but helps
+  edge_mode: "sobel_tv"     # "sobel_tv" | "tv"
+  perc_layers: ["relu1_2", "relu2_2"]  # VGG16 features
+
+# ---------- Validation ----------
+val:
+  num_patches: 512          # what you used in the run where PSNR hit 18.45 dB
+  metrics: ["psnr", "ssim"]
+  save_best_key: "psnr"     # save best on PSNR
+
+# ---------- Checkpointing / logs ----------
+save:
+  keep_every: 2000          # also save periodic checkpoints
+  best_name: bamr_stageA_best.pt
+print_every: 100
+val_every: 1000
+seed: 1337

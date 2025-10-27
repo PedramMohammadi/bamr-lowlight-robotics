@@ -1,0 +1,21 @@
+# ExDark YOLO dataset — ENHANCED (BAMR outputs on val/test)
+# Keep train on original images; point val/test to enhanced folders.
+
+path: ""
+train: /content/drive/MyDrive/bamr_project/data/prepared/exdark/images/train
+val:  /content/drive/MyDrive/bamr_project/data/prepared/exdark_enh/images/val
+test: /content/drive/MyDrive/bamr_project/data/prepared/exdark_enh/images/test
+nc: 12
+names:
+  - Bicycle
+  - Boat
+  - Bottle
+  - Bus
+  - Car
+  - Cat
+  - Chair
+  - Cup
+  - Dog
+  - Motorbike
+  - People
+  - Table

@@ -1,0 +1,70 @@
+# Example central paths used across scripts (for quick reference or templating)
+
+project_root: /content/drive/MyDrive/bamr_project
+
+# --------- RAW (as you downloaded) ----------
+raw:
+  exdark_zip: ${project_root}/data/raw/exdark/ExDark.zip
+  exdark_extract: ${project_root}/data/raw/exdark/_extract
+
+  lol_blur:
+    root: ${project_root}/data/raw/lol_blur
+    train_low_blur:  ${project_root}/data/raw/lol_blur/train/low_blur
+    train_low_blur_noise: ${project_root}/data/raw/lol_blur/train/low_blur_noise
+    train_gt: ${project_root}/data/raw/lol_blur/train/high_sharp_original
+    test_root: ${project_root}/data/raw/lol_blur/test
+
+  lolv2_real:
+    root: ${project_root}/data/raw/lolv2_real/LOL-v2/Real_captured
+    train_low:   ${project_root}/data/raw/lolv2_real/LOL-v2/Real_captured/Train/Low
+    train_gt:    ${project_root}/data/raw/lolv2_real/LOL-v2/Real_captured/Train/Normal
+    test_low:    ${project_root}/data/raw/lolv2_real/LOL-v2/Real_captured/Test/Low
+    test_gt:     ${project_root}/data/raw/lolv2_real/LOL-v2/Real_captured/Test/Normal
+
+  mid_mini:
+    raw_root: ${project_root}/data/raw/mid/mini
+    # per pair: {domain}/pairXX/{viewA,viewB}/*.jpg and GT_Correspondence/E_estimated.npy
+
+# --------- PREPARED ----------
+prepared:
+  exdark:
+    images: ${project_root}/data/prepared/exdark/images
+    labels: ${project_root}/data/prepared/exdark/labels
+  exdark_enh:
+    images: ${project_root}/data/prepared/exdark_enh/images
+    labels: ${project_root}/data/prepared/exdark_enh/labels
+  exdark_enh_v2:
+    images: ${project_root}/data/prepared/exdark_enh_v2/images
+    labels: ${project_root}/data/prepared/exdark_enh_v2/labels
+  mid_mini:
+    images: ${project_root}/data/prepared/mid_mini/images
+
+# --------- LISTS (TSVs you generated) ----------
+lists:
+  lol_blur:
+    train: ${project_root}/data/lists/lol_blur_train.tsv
+    val:   ${project_root}/data/lists/lol_blur_val.tsv
+    test:  ${project_root}/data/lists/lol_blur_test.tsv
+  lolv2:
+    train: ${project_root}/data/lists/lolv2_train.tsv
+    val:   ${project_root}/data/lists/lolv2_val.tsv
+    test:  ${project_root}/data/lists/lolv2_test.tsv
+  mid_mini_pairs: ${project_root}/data/lists/mid_mini_pairs.tsv
+
+# --------- CONFIGS (this repo) ----------
+configs:
+  exdark_yolo:     ${project_root}/configs/exdark_yolo.yaml
+  exdark_yolo_enh: ${project_root}/configs/exdark_yolo_enh.yaml
+  bamr_stage_a:    ${project_root}/configs/bamr_stage_a.yaml
+  bamr_stage_b:    ${project_root}/configs/bamr_stage_b.yaml
+
+# --------- CHECKPOINTS / REPORTS ----------
+checkpoints:
+  stageA_best: ${project_root}/checkpoints/bamr_stageA/bamr_stageA_best.pt
+  stageB_best: ${project_root}/checkpoints/bamr_stageB/bamr_taskaware.pt
+
+reports:
+  detector_eval:    ${project_root}/reports/detector_eval
+  detector_eval_ft: ${project_root}/reports/detector_eval_ft
+  matching_eval:    ${project_root}/reports/matching_eval
+  figures:          ${project_root}/reports/figures
