@@ -46,7 +46,7 @@ The model runs efficiently on embedded GPUs (T4/L4), supports AMP (fp16), and is
 
 ### Option A — Colab (recommended)
 
-Open [`notebooks/00_quickstart_colab.ipynb`](notebooks/00_quickstart_colab.py) and run cells top-to-bottom.
+Open [`notebooks/00_quickstart_colab.py`](notebooks/00_quickstart_colab.py) and run cells top-to-bottom.
 
 It will:
 1. Mount Drive  
